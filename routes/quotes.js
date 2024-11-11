@@ -11,6 +11,15 @@ router.get('/', function(req, res, next) {
   };
 });
 
+router.get('/:id', function(req, res, next) {
+  try {
+    res.json(quotes.getOne(req.params));
+  } catch(err) {
+    console.error(`Error while getting quotes `, err.message);
+    next(err);
+  };
+});
+
 router.post('/', function(req, res, next) {
   try {
     res.json(quotes.create(req.body));

@@ -1,6 +1,21 @@
 const db = require('../services/db');
 const config = require('../config');
 
+
+function getOne(id) {
+  const data = db.query(`SELECT * FROM quote WHERE id = ?`, [id], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Internal Server Error');
+    } else if (!row) {
+      res.status(404).send('Product Not Found');
+    } else {
+      res.send(row);
+    };
+  });
+  return data;
+};
+
 function getMultiple(page = 1) {
   const offset = (page - 1) * config.listPerPage;
   const data = db.query(`SELECT * FROM quote LIMIT ?,?`, [offset, config.listPerPage]);
@@ -50,7 +65,6 @@ function create(quoteObj) {
 // };
 
 function destroy(id) {
-  debugger
   const result = db.run('DELETE FROM quote WHERE id = (id) VALUES (@id)', {id});
   let message = 'Error in deleting quote';
   if (result.changes) {
@@ -62,6 +76,7 @@ function destroy(id) {
 
 module.exports = {
   getMultiple,
+  getOne,
   validateCreate,
   create,
   // update
