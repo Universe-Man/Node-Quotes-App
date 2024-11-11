@@ -40,10 +40,30 @@ function create(quoteObj) {
     message = 'Quote created successfully';
   };
   return {message};
+};
+
+// function update(id, quoteObj) {
+//   validateCreate(quoteObj);
+//   const id = id;
+//   const {quote, author} = quoteObj;
+//   const result = db.run()
+// };
+
+function destroy(id) {
+  debugger
+  const result = db.run('DELETE FROM quote WHERE id = (id) VALUES (@id)', {id});
+  let message = 'Error in deleting quote';
+  if (result.changes) {
+    message = 'Quote deleted successfully';
+  };
+  return {message};
+
 }
 
 module.exports = {
   getMultiple,
   validateCreate,
-  create
+  create,
+  // update
+  destroy
 };

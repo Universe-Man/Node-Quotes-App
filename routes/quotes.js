@@ -20,4 +20,22 @@ router.post('/', function(req, res, next) {
   };
 });
 
+router.put('/:id', function(req, res, next) {
+  try {
+    res.json(quotes.update(id, req.body));
+  } catch(err) {
+    console.error(`Error while updating quote `, err.message);
+    next(err);
+  };
+});
+
+router.delete('/:id', function(req, res, next) {
+  try {
+    res.json(quotes.destroy(req.params.id));
+  } catch(err) {
+    console.error(`Error while deleting quote `, err.message);
+    next(err);
+  };
+});
+
 module.exports = router;
